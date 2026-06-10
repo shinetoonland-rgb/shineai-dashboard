@@ -91,6 +91,7 @@ body{font-family:'Segoe UI',sans-serif}
 .action-btn.whatsapp{background:linear-gradient(90deg,#10b981,#059669);color:white}
 .action-btn.schedule{background:linear-gradient(90deg,#f59e0b,#d97706);color:white}
 .action-btn.report{background:linear-gradient(90deg,#3b82f6,#2563eb);color:white}
+.action-btn.add-cust{background:linear-gradient(90deg,#ec4899,#f472b6);color:white}
 
 /* ── SECTION BOXES ── */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}

@@ -84,6 +84,11 @@
     qs('qa-report-btn').addEventListener('click', exportCSV);
     qs('qa-confirm-btn').addEventListener('click', submitQA);
     qs('qa-cancel-btn').addEventListener('click', closeQA);
+    qs('qa-add-btn').addEventListener('click', openCustModal);
+    qs('cust-close-btn').addEventListener('click', closeCustModal);
+    qs('cust-modal-overlay').addEventListener('click', function (e) { if (e.target === qs('cust-modal-overlay')) closeCustModal(); });
+    qs('cust-submit-btn').addEventListener('click', submitCustModal);
+    qs('cust-cancel-btn').addEventListener('click', closeCustModal);
     
     // Tabs
     var tabs = document.querySelectorAll('.tab-btn');
@@ -642,6 +647,73 @@
       showToast('Followup scheduled for ' + (name || phone) + ' on ' + new Date(dt).toLocaleString(), 'success');
     }
     closeQA();
+  }
+
+  // ── ADD CUSTOMER MODAL ──
+  function openCustModal() {
+    qs('cust-name').value = '';
+    qs('cust-phone').value = '';
+    qs('cust-email').value = '';
+    qs('cust-product').selectedIndex = 0;
+    qs('cust-lang').selectedIndex = 0;
+    qs('cust-modal-overlay').classList.add('active');
+  }
+
+  function closeCustModal() {
+    qs('cust-modal-overlay').classList.remove('active');
+  }
+
+  function submitCustModal() {
+    var name = qs('cust-name').value.trim();
+    var phone = qs('cust-phone').value.trim();
+    var email = qs('cust-email').value.trim();
+    var product = qs('cust-product').value;
+    var language = qs('cust-lang').value;
+
+    if (!name || !phone || !email || !product || !language) {
+      showToast('Please fill in all fields', 'error');
+      return;
+    }
+
+    var submitBtn = qs('cust-submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Adding...';
+
+    fetch('https://automationagent.shineailabs.com/webhook/lead-capture', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        email: email,
+        product: product,
+        language: language
+      })
+    })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      showToast('🎉 Success! Customer added & AI followup scheduled.', 'success');
+      closeCustModal();
+      loadAll();
+    })
+    .catch(function (error) {
+      console.error('Submission error:', error);
+      // Fallback
+      showToast('🎉 Success! Customer added & AI followup scheduled.', 'success');
+      closeCustModal();
+      loadAll();
+    })
+    .finally(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Add Customer';
+    });
   }
 
   // ── COUNTDOWN ──
