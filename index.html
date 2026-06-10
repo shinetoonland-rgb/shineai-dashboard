@@ -1,89 +1,199 @@
 <!DOCTYPE html>
-<!-- saved from url=(0060)https://automationagent.shineailabs.com/webhook/dashboard-ui -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShineAILabs Dashboard</title>
-  <script src="./index_files/chart.umd.min.js.download"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="login-page" style="display: none;">
+<div id="login-page">
   <div class="login-box">
-    <div style="font-size:48px;margin-bottom:16px">⚡</div>
+    <div style="font-size:44px;margin-bottom:14px">⚡</div>
     <h2>ShineAILabs Dashboard</h2>
     <p>Sign in to access your AI followup analytics</p>
-    <input class="login-input" type="text" id="un" placeholder="Username">
-    <input class="login-input" type="password" id="pw" placeholder="Password">
+    <input class="login-input" type="text"     id="un" placeholder="Username" />
+    <input class="login-input" type="password" id="pw" placeholder="Password" />
     <button class="login-btn" id="login-btn">Sign In</button>
-    <div class="login-error" id="login-error" style="display: none;">Invalid username or password</div>
+    <div class="login-error" id="login-error">Invalid username or password</div>
   </div>
 </div>
 
 <!-- MAIN -->
-<div id="main-page" style="display: block;">
+<div id="main-page">
+
+  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <h1>⚡ AI Followup Dashboard</h1>
-      <p>Real-time analytics for WhatsApp &amp; Voice AI SaaS</p>
+      <h1>⚡ ShineAILabs</h1>
+      <p>AI Customer Engagement Platform · Real-time Analytics</p>
     </div>
     <div class="header-right">
-      <div class="live-badge"><div class="live-dot"></div><span style="font-size:13px;color:#94a3b8">Live</span></div>
-      <button class="btn btn-blue" id="refresh-btn">Refresh</button>
-      <button class="btn btn-red" id="logout-btn">Logout</button>
+      <div class="live-badge"><div class="live-dot"></div><span style="font-size:12px;color:#94a3b8">Live</span></div>
+      <button class="btn btn-blue" id="refresh-btn">↺ Refresh</button>
+      <button class="btn btn-red"  id="logout-btn">Logout</button>
     </div>
   </div>
-  <div class="error-bar" id="error-bar" style="display: none;">Unable to fetch data. Check workflows are active.</div>
-  <div class="debug-bar" id="debug-bar" style="display: flex;">
-    Customers: <b id="dbg-c">100</b> &nbsp;
-    Followups: <b id="dbg-f">100</b> &nbsp;
-    Interactions: <b id="dbg-i">15</b> &nbsp;
-    <b id="dbg-msg" style="color:#f87171">All data loaded OK</b>
+
+  <!-- ERROR / DEBUG -->
+  <div class="error-bar" id="error-bar">Unable to fetch data. Check workflows are active.</div>
+  <div class="debug-bar" id="debug-bar" style="display:none">
+    Customers: <b id="dbg-c">0</b> &nbsp;
+    Followups: <b id="dbg-f">0</b> &nbsp;
+    Interactions: <b id="dbg-i">0</b> &nbsp;
+    <b id="dbg-msg" style="color:#f87171"></b>
   </div>
-  <div class="search-wrap">
-    <input class="search-input" type="text" id="search-input" placeholder="Search customers by name or phone...">
-  </div>
-  <div class="grid" id="dashboard"><div class="card blue" data-list="all"><div class="card-icon">👥</div><div class="card-label">Total Customers</div><div class="card-value">100</div><div class="card-sub">Registered in system</div><div class="card-click-hint">click to view</div></div><div class="card orange" data-list="pending"><div class="card-icon">⏳</div><div class="card-label">Pending Followups</div><div class="card-value">43</div><div class="card-sub">Awaiting action</div><div class="card-click-hint">click to view</div></div><div class="card green" data-list="completed"><div class="card-icon">✅</div><div class="card-label">Completed</div><div class="card-value">57</div><div class="card-sub">Successfully sent</div><div class="card-click-hint">click to view</div></div><div class="card purple" data-list="voice"><div class="card-icon">📞</div><div class="card-label">Voice Calls</div><div class="card-value">8</div><div class="card-sub">AI calls made</div><div class="card-click-hint">click to view</div></div><div class="card cyan" data-list="whatsapp"><div class="card-icon">💬</div><div class="card-label">WhatsApp Sent</div><div class="card-value">7</div><div class="card-sub">Messages delivered</div><div class="card-click-hint">click to view</div></div><div class="card pink" data-list="hindi"><div class="card-icon">🇮🇳</div><div class="card-label">Hindi</div><div class="card-value">67</div><div class="card-sub">Preferred Hindi</div><div class="card-click-hint">click to view</div></div><div class="card indigo" data-list="english"><div class="card-icon">🌐</div><div class="card-label">English</div><div class="card-value">23</div><div class="card-sub">Preferred English</div><div class="card-click-hint">click to view</div></div><div class="card teal" data-list="voice"><div class="card-icon">🎙</div><div class="card-label">Voice Interactions</div><div class="card-value">8</div><div class="card-sub">Logged voice events</div><div class="card-click-hint">click to view</div></div><div class="card red" data-list="whatsapp"><div class="card-icon">📱</div><div class="card-label">WA Interactions</div><div class="card-value">7</div><div class="card-sub">Logged chat events</div><div class="card-click-hint">click to view</div></div><div class="card yellow" data-list="all"><div class="card-icon">🎯</div><div class="card-label">Success Rate</div><div class="card-value" style="color:#facc15">57%</div><div class="card-sub">Completion rate</div><div class="success-bar-wrap"><div class="success-bar-fill" style="width:57%"></div></div><div class="card-click-hint">click to view</div></div></div>
-  <div class="action-section">
-    <div class="section-title">Quick Actions</div>
-    <div class="action-grid">
-      <button class="action-btn call" id="qa-call-btn">📞 Manual Voice Call</button>
-      <button class="action-btn whatsapp" id="qa-wa-btn">💬 Send WhatsApp</button>
-      <button class="action-btn schedule" id="qa-sched-btn">📅 Schedule Followup</button>
-      <button class="action-btn report" id="qa-report-btn">📊 Export Report</button>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-icon">👥</div>
+      <div><div class="kpi-val" id="kpi-leads">--</div><div class="kpi-lbl">Total Leads</div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🎯</div>
+      <div><div class="kpi-val" id="kpi-rate">--</div><div class="kpi-lbl">Conversion</div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⏳</div>
+      <div><div class="kpi-val" id="kpi-pending">--</div><div class="kpi-lbl">Pending</div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">⚡</div>
+      <div><div class="kpi-val" id="kpi-today">--</div><div class="kpi-lbl">Today's Leads</div></div>
     </div>
   </div>
-  <div class="two-col">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="overview">📊 Overview</button>
+    <button class="tab-btn" data-tab="analytics">📈 Analytics</button>
+    <button class="tab-btn" data-tab="customers">👥 Customers</button>
+  </div>
+
+  <!-- ═══ TAB: OVERVIEW ═══ -->
+  <div class="tab-pane" data-pane="overview">
+
+    <!-- METRIC CARDS -->
+    <div class="grid" id="dashboard">
+      <div class="card blue"><div class="card-icon">👥</div><div class="card-label">Total Customers</div><div class="skeleton"></div></div>
+      <div class="card orange"><div class="card-icon">⏳</div><div class="card-label">Pending</div><div class="skeleton"></div></div>
+      <div class="card green"><div class="card-icon">✅</div><div class="card-label">Completed</div><div class="skeleton"></div></div>
+      <div class="card purple"><div class="card-icon">📞</div><div class="card-label">Voice Calls</div><div class="skeleton"></div></div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="action-section">
+      <div class="section-title">Quick Actions</div>
+      <div class="action-grid">
+        <button class="action-btn call"     id="qa-call-btn">📞 Manual Voice Call</button>
+        <button class="action-btn whatsapp" id="qa-wa-btn">💬 Send WhatsApp</button>
+        <button class="action-btn schedule" id="qa-sched-btn">📅 Schedule Followup</button>
+        <button class="action-btn report"   id="qa-report-btn">📥 Export CSV</button>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="two-col">
+      <div class="section-box">
+        <div class="section-title">Daily Activity</div>
+        <div class="chart-wrap"><canvas id="myChart"></canvas></div>
+      </div>
+      <div class="section-box">
+        <div class="section-title">Recent Activity <span style="font-size:11px;color:#475569">Last 10</span></div>
+        <div id="activity-table"><div style="color:#475569;font-size:13px">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="two-col">
+      <div class="section-box">
+        <div class="section-title">AI Sentiment Analysis</div>
+        <div id="sentiment-bars"><div style="color:#475569;font-size:13px">Loading...</div></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06)">
+          <div style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Avg Response Time</div>
+          <div style="font-size:28px;font-weight:800;color:#34d399">⚡ &lt; 60s</div>
+          <div style="font-size:12px;color:#64748b;margin-top:3px">AI contacts every new lead</div>
+        </div>
+      </div>
+      <div class="section-box">
+        <div class="section-title">Industry Breakdown</div>
+        <div id="industry-list"><div style="color:#475569;font-size:13px">Loading...</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ TAB: ANALYTICS ═══ -->
+  <div class="tab-pane" data-pane="analytics">
+
+    <!-- FUNNEL -->
+    <div class="section-box" style="margin-bottom:18px">
+      <div class="section-title">Lead Conversion Funnel</div>
+      <div class="chart-wrap-lg"><canvas id="funnelChart"></canvas></div>
+    </div>
+
+    <!-- WEEKLY TREND -->
+    <div class="section-box" style="margin-bottom:18px">
+      <div class="section-title">Weekly Contact Trend</div>
+      <div class="chart-wrap-lg"><canvas id="response-timeline"></canvas></div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="three-col">
+      <div class="section-box" style="text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">📞</div>
+        <div style="font-size:32px;font-weight:800;color:#a78bfa" id="stat-voice">--</div>
+        <div style="font-size:12px;color:#64748b;margin-top:4px">Voice Calls Made</div>
+      </div>
+      <div class="section-box" style="text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">💬</div>
+        <div style="font-size:32px;font-weight:800;color:#34d399" id="stat-wa">--</div>
+        <div style="font-size:12px;color:#64748b;margin-top:4px">WhatsApp Sent</div>
+      </div>
+      <div class="section-box" style="text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">🚨</div>
+        <div style="font-size:32px;font-weight:800;color:#f87171" id="stat-esc">0</div>
+        <div style="font-size:12px;color:#64748b;margin-top:4px">Human Escalations</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ TAB: CUSTOMERS ═══ -->
+  <div class="tab-pane" data-pane="customers">
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="search-input" placeholder="Search by name, phone or industry..." />
+    </div>
     <div class="section-box">
-      <div class="section-title">Daily Activity</div>
-      <div class="chart-wrap"><canvas id="myChart" style="box-sizing: border-box; display: block; height: 220px; width: 922px;" width="864" height="206"></canvas></div>
-    </div>
-    <div class="section-box">
-      <div class="section-title">Recent Activity <span style="font-size:11px;color:#475569">Last 10</span></div>
-      <div id="activity-table"><table class="data-table"><thead><tr><th>Time</th><th>Type</th><th>Customer</th><th>Message</th></tr></thead><tbody><tr><td style="color:#64748b;white-space:nowrap">2:01:35 PM</td><td><span class="badge badge-voice">Voice</span></td><td>Rajesh Kumar</td><td style="color:#64748b">Voice call completed successfu</td></tr><tr><td style="color:#64748b;white-space:nowrap">1:46:35 PM</td><td><span class="badge badge-whatsapp">WA</span></td><td>Priya Sharma</td><td style="color:#64748b">WhatsApp message sent</td></tr><tr><td style="color:#64748b;white-space:nowrap">1:11:35 PM</td><td><span class="badge badge-voice">Voice</span></td><td>Amit Singh</td><td style="color:#64748b">Voice call - no answer</td></tr><tr><td style="color:#64748b;white-space:nowrap">12:11:35 PM</td><td><span class="badge badge-whatsapp">WA</span></td><td>Sunita Devi</td><td style="color:#64748b">Reminder sent via WhatsApp</td></tr><tr><td style="color:#64748b;white-space:nowrap">11:11:35 AM</td><td><span class="badge badge-voice">Voice</span></td><td>Vikram Patel</td><td style="color:#64748b">Voice call completed</td></tr><tr><td style="color:#64748b;white-space:nowrap">10:11:35 AM</td><td><span class="badge badge-whatsapp">WA</span></td><td>Meena Joshi</td><td style="color:#64748b">Follow-up message delivered</td></tr><tr><td style="color:#64748b;white-space:nowrap">9:11:35 AM</td><td><span class="badge badge-voice">Voice</span></td><td>Suresh Yadav</td><td style="color:#64748b">AI voice call initiated</td></tr><tr><td style="color:#64748b;white-space:nowrap">8:11:35 AM</td><td><span class="badge badge-whatsapp">WA</span></td><td>Kavita Gupta</td><td style="color:#64748b">WhatsApp notification sent</td></tr><tr><td style="color:#64748b;white-space:nowrap">7:11:35 AM</td><td><span class="badge badge-voice">Voice</span></td><td>Deepak Verma</td><td style="color:#64748b">Call answered, spoke for 2 min</td></tr><tr><td style="color:#64748b;white-space:nowrap">6:11:35 AM</td><td><span class="badge badge-whatsapp">WA</span></td><td>Anita Mishra</td><td style="color:#64748b">Payment reminder sent</td></tr></tbody></table></div>
+      <div class="section-title">
+        Customer List
+        <span id="customer-count" style="font-size:11px;color:#475569"></span>
+      </div>
+      <div id="customer-table"><div style="color:#475569;font-size:13px">Loading...</div></div>
     </div>
   </div>
-  <div class="section-box" style="margin-bottom:24px">
-    <div class="section-title">Customer List <span id="customer-count" style="font-size:11px;color:#475569">100 customers</span></div>
-    <div id="customer-table"><table class="data-table"><thead><tr><th>Name</th><th>Phone</th><th>Language</th><th>Product</th><th>Actions</th></tr></thead><tbody><tr data-idx="0" style="cursor:pointer"><td>Amit Sharma</td><td style="color:#64748b">9876543201</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543201" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543201" target="_blank" title="WA">💬</a></td></tr><tr data-idx="1" style="cursor:pointer"><td>Priya Singh</td><td style="color:#64748b">9876543202</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543202" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543202" target="_blank" title="WA">💬</a></td></tr><tr data-idx="2" style="cursor:pointer"><td>Rahul Verma</td><td style="color:#64748b">9876543203</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543203" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543203" target="_blank" title="WA">💬</a></td></tr><tr data-idx="3" style="cursor:pointer"><td>Sneha Patel</td><td style="color:#64748b">9876543204</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543204" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543204" target="_blank" title="WA">💬</a></td></tr><tr data-idx="4" style="cursor:pointer"><td>Vikram Nair</td><td style="color:#64748b">9876543205</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543205" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543205" target="_blank" title="WA">💬</a></td></tr><tr data-idx="5" style="cursor:pointer"><td>Anita Joshi</td><td style="color:#64748b">9876543206</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543206" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543206" target="_blank" title="WA">💬</a></td></tr><tr data-idx="6" style="cursor:pointer"><td>Karan Mehta</td><td style="color:#64748b">9876543207</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543207" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543207" target="_blank" title="WA">💬</a></td></tr><tr data-idx="7" style="cursor:pointer"><td>Deepa Rao</td><td style="color:#64748b">9876543208</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543208" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543208" target="_blank" title="WA">💬</a></td></tr><tr data-idx="8" style="cursor:pointer"><td>Suresh Kumar</td><td style="color:#64748b">9876543209</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543209" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543209" target="_blank" title="WA">💬</a></td></tr><tr data-idx="9" style="cursor:pointer"><td>Meera Iyer</td><td style="color:#64748b">9876543210</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543210" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543210" target="_blank" title="WA">💬</a></td></tr><tr data-idx="10" style="cursor:pointer"><td>Ajay Gupta</td><td style="color:#64748b">9876543211</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543211" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543211" target="_blank" title="WA">💬</a></td></tr><tr data-idx="11" style="cursor:pointer"><td>Pooja Desai</td><td style="color:#64748b">9876543212</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543212" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543212" target="_blank" title="WA">💬</a></td></tr><tr data-idx="12" style="cursor:pointer"><td>Ravi Shankar</td><td style="color:#64748b">9876543213</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543213" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543213" target="_blank" title="WA">💬</a></td></tr><tr data-idx="13" style="cursor:pointer"><td>Kavita Reddy</td><td style="color:#64748b">9876543214</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543214" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543214" target="_blank" title="WA">💬</a></td></tr><tr data-idx="14" style="cursor:pointer"><td>Mohit Agarwal</td><td style="color:#64748b">9876543215</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543215" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543215" target="_blank" title="WA">💬</a></td></tr><tr data-idx="15" style="cursor:pointer"><td>Sunita Yadav</td><td style="color:#64748b">9876543216</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543216" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543216" target="_blank" title="WA">💬</a></td></tr><tr data-idx="16" style="cursor:pointer"><td>Nikhil Jain</td><td style="color:#64748b">9876543217</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543217" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543217" target="_blank" title="WA">💬</a></td></tr><tr data-idx="17" style="cursor:pointer"><td>Rekha Pillai</td><td style="color:#64748b">9876543218</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543218" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543218" target="_blank" title="WA">💬</a></td></tr><tr data-idx="18" style="cursor:pointer"><td>Arjun Malhotra</td><td style="color:#64748b">9876543219</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543219" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543219" target="_blank" title="WA">💬</a></td></tr><tr data-idx="19" style="cursor:pointer"><td>Divya Krishnan</td><td style="color:#64748b">9876543220</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543220" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543220" target="_blank" title="WA">💬</a></td></tr><tr data-idx="20" style="cursor:pointer"><td>Rohit Saxena</td><td style="color:#64748b">9876543221</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543221" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543221" target="_blank" title="WA">💬</a></td></tr><tr data-idx="21" style="cursor:pointer"><td>Nisha Kapoor</td><td style="color:#64748b">9876543222</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543222" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543222" target="_blank" title="WA">💬</a></td></tr><tr data-idx="22" style="cursor:pointer"><td>Sanjay Tiwari</td><td style="color:#64748b">9876543223</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543223" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543223" target="_blank" title="WA">💬</a></td></tr><tr data-idx="23" style="cursor:pointer"><td>Lalita Bose</td><td style="color:#64748b">9876543224</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543224" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543224" target="_blank" title="WA">💬</a></td></tr><tr data-idx="24" style="cursor:pointer"><td>Arun Mishra</td><td style="color:#64748b">9876543225</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543225" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543225" target="_blank" title="WA">💬</a></td></tr><tr data-idx="25" style="cursor:pointer"><td>Geeta Pillai</td><td style="color:#64748b">9876543226</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543226" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543226" target="_blank" title="WA">💬</a></td></tr><tr data-idx="26" style="cursor:pointer"><td>Manish Choudhary</td><td style="color:#64748b">9876543227</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543227" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543227" target="_blank" title="WA">💬</a></td></tr><tr data-idx="27" style="cursor:pointer"><td>Prerna Sharma</td><td style="color:#64748b">9876543228</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543228" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543228" target="_blank" title="WA">💬</a></td></tr><tr data-idx="28" style="cursor:pointer"><td>Tarun Khanna</td><td style="color:#64748b">9876543229</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543229" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543229" target="_blank" title="WA">💬</a></td></tr><tr data-idx="29" style="cursor:pointer"><td>Shilpa Verma</td><td style="color:#64748b">9876543230</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543230" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543230" target="_blank" title="WA">💬</a></td></tr><tr data-idx="30" style="cursor:pointer"><td>Naveen Reddy</td><td style="color:#64748b">9876543231</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543231" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543231" target="_blank" title="WA">💬</a></td></tr><tr data-idx="31" style="cursor:pointer"><td>Asha Menon</td><td style="color:#64748b">9876543232</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543232" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543232" target="_blank" title="WA">💬</a></td></tr><tr data-idx="32" style="cursor:pointer"><td>Devendra Singh</td><td style="color:#64748b">9876543233</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543233" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543233" target="_blank" title="WA">💬</a></td></tr><tr data-idx="33" style="cursor:pointer"><td>Pallavi Joshi</td><td style="color:#64748b">9876543234</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543234" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543234" target="_blank" title="WA">💬</a></td></tr><tr data-idx="34" style="cursor:pointer"><td>Vivek Pandey</td><td style="color:#64748b">9876543235</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543235" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543235" target="_blank" title="WA">💬</a></td></tr><tr data-idx="35" style="cursor:pointer"><td>Swati Kulkarni</td><td style="color:#64748b">9876543236</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543236" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543236" target="_blank" title="WA">💬</a></td></tr><tr data-idx="36" style="cursor:pointer"><td>Harish Nair</td><td style="color:#64748b">9876543237</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543237" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543237" target="_blank" title="WA">💬</a></td></tr><tr data-idx="37" style="cursor:pointer"><td>Mamta Sharma</td><td style="color:#64748b">9876543238</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543238" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543238" target="_blank" title="WA">💬</a></td></tr><tr data-idx="38" style="cursor:pointer"><td>Rajesh Gupta</td><td style="color:#64748b">9876543239</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543239" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543239" target="_blank" title="WA">💬</a></td></tr><tr data-idx="39" style="cursor:pointer"><td>Shreya Agarwal</td><td style="color:#64748b">9876543240</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543240" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543240" target="_blank" title="WA">💬</a></td></tr><tr data-idx="40" style="cursor:pointer"><td>Prakash Iyer</td><td style="color:#64748b">9876543241</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543241" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543241" target="_blank" title="WA">💬</a></td></tr><tr data-idx="41" style="cursor:pointer"><td>Ritu Bansal</td><td style="color:#64748b">9876543242</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543242" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543242" target="_blank" title="WA">💬</a></td></tr><tr data-idx="42" style="cursor:pointer"><td>Sunil Kadam</td><td style="color:#64748b">9876543243</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543243" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543243" target="_blank" title="WA">💬</a></td></tr><tr data-idx="43" style="cursor:pointer"><td>Usha Rani</td><td style="color:#64748b">9876543244</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543244" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543244" target="_blank" title="WA">💬</a></td></tr><tr data-idx="44" style="cursor:pointer"><td>Alok Trivedi</td><td style="color:#64748b">9876543245</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543245" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543245" target="_blank" title="WA">💬</a></td></tr><tr data-idx="45" style="cursor:pointer"><td>Sundar Rajan</td><td style="color:#64748b">9876543246</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543246" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543246" target="_blank" title="WA">💬</a></td></tr><tr data-idx="46" style="cursor:pointer"><td>Hemali Shah</td><td style="color:#64748b">9876543247</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543247" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543247" target="_blank" title="WA">💬</a></td></tr><tr data-idx="47" style="cursor:pointer"><td>Dinesh Kumar</td><td style="color:#64748b">9876543248</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543248" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543248" target="_blank" title="WA">💬</a></td></tr><tr data-idx="48" style="cursor:pointer"><td>Anupama Dubey</td><td style="color:#64748b">9876543249</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543249" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543249" target="_blank" title="WA">💬</a></td></tr><tr data-idx="49" style="cursor:pointer"><td>Gaurav Chopra</td><td style="color:#64748b">9876543250</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543250" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543250" target="_blank" title="WA">💬</a></td></tr><tr data-idx="50" style="cursor:pointer"><td>Shweta Misra</td><td style="color:#64748b">9876543251</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543251" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543251" target="_blank" title="WA">💬</a></td></tr><tr data-idx="51" style="cursor:pointer"><td>Manoj Pillai</td><td style="color:#64748b">9876543252</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543252" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543252" target="_blank" title="WA">💬</a></td></tr><tr data-idx="52" style="cursor:pointer"><td>Kaveri Nair</td><td style="color:#64748b">9876543253</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543253" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543253" target="_blank" title="WA">💬</a></td></tr><tr data-idx="53" style="cursor:pointer"><td>Aditya Rana</td><td style="color:#64748b">9876543254</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543254" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543254" target="_blank" title="WA">💬</a></td></tr><tr data-idx="54" style="cursor:pointer"><td>Bhavna Solanki</td><td style="color:#64748b">9876543255</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543255" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543255" target="_blank" title="WA">💬</a></td></tr><tr data-idx="55" style="cursor:pointer"><td>Chetan Reddy</td><td style="color:#64748b">9876543256</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543256" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543256" target="_blank" title="WA">💬</a></td></tr><tr data-idx="56" style="cursor:pointer"><td>Dakshata Pawar</td><td style="color:#64748b">9876543257</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543257" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543257" target="_blank" title="WA">💬</a></td></tr><tr data-idx="57" style="cursor:pointer"><td>Eshan Malviya</td><td style="color:#64748b">9876543258</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543258" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543258" target="_blank" title="WA">💬</a></td></tr><tr data-idx="58" style="cursor:pointer"><td>Falak Qureshi</td><td style="color:#64748b">9876543259</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543259" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543259" target="_blank" title="WA">💬</a></td></tr><tr data-idx="59" style="cursor:pointer"><td>Gayatri Menon</td><td style="color:#64748b">9876543260</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543260" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543260" target="_blank" title="WA">💬</a></td></tr><tr data-idx="60" style="cursor:pointer"><td>Hemant Soni</td><td style="color:#64748b">9876543261</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543261" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543261" target="_blank" title="WA">💬</a></td></tr><tr data-idx="61" style="cursor:pointer"><td>Indira Nambiar</td><td style="color:#64748b">9876543262</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543262" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543262" target="_blank" title="WA">💬</a></td></tr><tr data-idx="62" style="cursor:pointer"><td>Jagdish Bhat</td><td style="color:#64748b">9876543263</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543263" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543263" target="_blank" title="WA">💬</a></td></tr><tr data-idx="63" style="cursor:pointer"><td>Kalpana Tiwari</td><td style="color:#64748b">9876543264</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543264" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543264" target="_blank" title="WA">💬</a></td></tr><tr data-idx="64" style="cursor:pointer"><td>Lalit Negi</td><td style="color:#64748b">9876543265</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543265" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543265" target="_blank" title="WA">💬</a></td></tr><tr data-idx="65" style="cursor:pointer"><td>Madhuri Jha</td><td style="color:#64748b">9876543266</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543266" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543266" target="_blank" title="WA">💬</a></td></tr><tr data-idx="66" style="cursor:pointer"><td>Narendra Shukla</td><td style="color:#64748b">9876543267</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543267" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543267" target="_blank" title="WA">💬</a></td></tr><tr data-idx="67" style="cursor:pointer"><td>Omkar Kulkarni</td><td style="color:#64748b">9876543268</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543268" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543268" target="_blank" title="WA">💬</a></td></tr><tr data-idx="68" style="cursor:pointer"><td>Pramila Hegde</td><td style="color:#64748b">9876543269</td><td><span class="badge badge-whatsapp">Kannada</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543269" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543269" target="_blank" title="WA">💬</a></td></tr><tr data-idx="69" style="cursor:pointer"><td>Qasim Ali</td><td style="color:#64748b">9876543270</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543270" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543270" target="_blank" title="WA">💬</a></td></tr><tr data-idx="70" style="cursor:pointer"><td>Rita Sharma</td><td style="color:#64748b">9876543271</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543271" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543271" target="_blank" title="WA">💬</a></td></tr><tr data-idx="71" style="cursor:pointer"><td>Santosh Verma</td><td style="color:#64748b">9876543272</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543272" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543272" target="_blank" title="WA">💬</a></td></tr><tr data-idx="72" style="cursor:pointer"><td>Tanvi Desai</td><td style="color:#64748b">9876543273</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543273" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543273" target="_blank" title="WA">💬</a></td></tr><tr data-idx="73" style="cursor:pointer"><td>Umesh Patil</td><td style="color:#64748b">9876543274</td><td><span class="badge badge-whatsapp">Marathi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543274" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543274" target="_blank" title="WA">💬</a></td></tr><tr data-idx="74" style="cursor:pointer"><td>Vandana Ghosh</td><td style="color:#64748b">9876543275</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543275" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543275" target="_blank" title="WA">💬</a></td></tr><tr data-idx="75" style="cursor:pointer"><td>Wasim Khan</td><td style="color:#64748b">9876543276</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543276" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543276" target="_blank" title="WA">💬</a></td></tr><tr data-idx="76" style="cursor:pointer"><td>Xavier D'Silva</td><td style="color:#64748b">9876543277</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543277" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543277" target="_blank" title="WA">💬</a></td></tr><tr data-idx="77" style="cursor:pointer"><td>Yamini Rao</td><td style="color:#64748b">9876543278</td><td><span class="badge badge-whatsapp">Telugu</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543278" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543278" target="_blank" title="WA">💬</a></td></tr><tr data-idx="78" style="cursor:pointer"><td>Zahir Hussain</td><td style="color:#64748b">9876543279</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543279" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543279" target="_blank" title="WA">💬</a></td></tr><tr data-idx="79" style="cursor:pointer"><td>Abha Singh</td><td style="color:#64748b">9876543280</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543280" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543280" target="_blank" title="WA">💬</a></td></tr><tr data-idx="80" style="cursor:pointer"><td>Bharat Joshi</td><td style="color:#64748b">9876543281</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543281" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543281" target="_blank" title="WA">💬</a></td></tr><tr data-idx="81" style="cursor:pointer"><td>Chanda Mishra</td><td style="color:#64748b">9876543282</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543282" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543282" target="_blank" title="WA">💬</a></td></tr><tr data-idx="82" style="cursor:pointer"><td>Dilip Chatterjee</td><td style="color:#64748b">9876543283</td><td><span class="badge badge-whatsapp">Bengali</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543283" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543283" target="_blank" title="WA">💬</a></td></tr><tr data-idx="83" style="cursor:pointer"><td>Ela Srivastava</td><td style="color:#64748b">9876543284</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543284" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543284" target="_blank" title="WA">💬</a></td></tr><tr data-idx="84" style="cursor:pointer"><td>Firoz Sheikh</td><td style="color:#64748b">9876543285</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543285" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543285" target="_blank" title="WA">💬</a></td></tr><tr data-idx="85" style="cursor:pointer"><td>Girish Naik</td><td style="color:#64748b">9876543286</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543286" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543286" target="_blank" title="WA">💬</a></td></tr><tr data-idx="86" style="cursor:pointer"><td>Hema Lakshmanan</td><td style="color:#64748b">9876543287</td><td><span class="badge badge-whatsapp">Tamil</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543287" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543287" target="_blank" title="WA">💬</a></td></tr><tr data-idx="87" style="cursor:pointer"><td>Irfan Siddiqui</td><td style="color:#64748b">9876543288</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543288" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543288" target="_blank" title="WA">💬</a></td></tr><tr data-idx="88" style="cursor:pointer"><td>Jyoti Mehrotra</td><td style="color:#64748b">9876543289</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543289" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543289" target="_blank" title="WA">💬</a></td></tr><tr data-idx="89" style="cursor:pointer"><td>Kishore Babu</td><td style="color:#64748b">9876543290</td><td><span class="badge badge-whatsapp">Telugu</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543290" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543290" target="_blank" title="WA">💬</a></td></tr><tr data-idx="90" style="cursor:pointer"><td>Leena Kapoor</td><td style="color:#64748b">9876543291</td><td><span class="badge badge-whatsapp">English</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543291" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543291" target="_blank" title="WA">💬</a></td></tr><tr data-idx="91" style="cursor:pointer"><td>Mridul Basu</td><td style="color:#64748b">9876543292</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543292" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543292" target="_blank" title="WA">💬</a></td></tr><tr data-idx="92" style="cursor:pointer"><td>Nalini Shetty</td><td style="color:#64748b">9876543293</td><td><span class="badge badge-whatsapp">Kannada</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543293" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543293" target="_blank" title="WA">💬</a></td></tr><tr data-idx="93" style="cursor:pointer"><td>Om Prakash</td><td style="color:#64748b">9876543294</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543294" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543294" target="_blank" title="WA">💬</a></td></tr><tr data-idx="94" style="cursor:pointer"><td>Padma Nair</td><td style="color:#64748b">9876543295</td><td><span class="badge badge-whatsapp">Malayalam</span></td><td style="color:#94a3b8">Payment Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543295" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543295" target="_blank" title="WA">💬</a></td></tr><tr data-idx="95" style="cursor:pointer"><td>Qumar Farooq</td><td style="color:#64748b">9876543296</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543296" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543296" target="_blank" title="WA">💬</a></td></tr><tr data-idx="96" style="cursor:pointer"><td>Radha Krishnan</td><td style="color:#64748b">9876543297</td><td><span class="badge badge-whatsapp">Tamil</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543297" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543297" target="_blank" title="WA">💬</a></td></tr><tr data-idx="97" style="cursor:pointer"><td>Sameer Tonge</td><td style="color:#64748b">9876543298</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">EMI Reminder</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543298" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543298" target="_blank" title="WA">💬</a></td></tr><tr data-idx="98" style="cursor:pointer"><td>Tara Panda</td><td style="color:#64748b">9876543299</td><td><span class="badge badge-whatsapp">Odia</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543299" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543299" target="_blank" title="WA">💬</a></td></tr><tr data-idx="99" style="cursor:pointer"><td>Udai Singh</td><td style="color:#64748b">9876543300</td><td><span class="badge badge-voice">Hindi</span></td><td style="color:#94a3b8">Sales Followup</td><td style="display:flex;gap:6px;align-items:center"><a class="icon-btn cb" href="tel:9876543300" title="Call">📞</a><a class="icon-btn wb" href="https://wa.me/9876543300" target="_blank" title="WA">💬</a></td></tr></tbody></table></div>
-  </div>
+
+  <!-- BOTTOM BAR -->
   <div class="bottom-bar">
     <div class="bottom-bar-left">Powered by <span>n8n + Supabase + OpenAI + Twilio</span></div>
-    <div>Next refresh in <span id="timer" style="color:#60a5fa;font-weight:700">5</span>s</div>
+    <div style="font-size:12px;color:#64748b">Next refresh in <span id="timer" style="color:#60a5fa;font-weight:700">10</span>s</div>
     <div id="last-updated" style="font-size:12px;color:#475569">Fetching...</div>
   </div>
-</div>
+
+</div><!-- /main-page -->
 
 <!-- LIST MODAL -->
 <div class="list-overlay" id="list-overlay">
   <div class="list-modal">
     <div class="list-header">
       <div class="list-title" id="list-title">Records</div>
-      <button class="x-btn" id="list-close-btn">×</button>
+      <button class="x-btn" id="list-close-btn">✕</button>
     </div>
-    <input class="list-search-inp" type="text" id="list-search" placeholder="Search...">
+    <input class="list-search-inp" type="text" id="list-search" placeholder="Search..." />
     <div class="list-count" id="list-count"></div>
     <div id="list-body"></div>
   </div>
@@ -96,14 +206,14 @@
       <div class="dp-ava" id="dp-ava">?</div>
       <div class="dp-info">
         <div class="dp-name" id="dp-name">--</div>
-        <div class="dp-ph" id="dp-ph">--</div>
-        <span class="badge badge-voice" id="dp-badge" style="margin-top:5px;display:inline-block">--</span>
+        <div class="dp-ph"   id="dp-ph">--</div>
+        <span class="badge badge-voice" id="dp-badge" style="margin-top:4px;display:inline-block">--</span>
       </div>
-      <button class="x-btn" id="dp-close-btn" style="margin-left:10px;flex-shrink:0">×</button>
+      <button class="x-btn" id="dp-close-btn" style="margin-left:10px;flex-shrink:0">✕</button>
     </div>
     <div class="dp-btns">
-      <a id="dp-call-link" href="https://automationagent.shineailabs.com/webhook/dashboard-ui#" class="dp-btn dp-call">📞 Call</a>
-      <a id="dp-wa-link" href="https://automationagent.shineailabs.com/webhook/dashboard-ui#" class="dp-btn dp-wa" target="_blank">💬 WhatsApp</a>
+      <a id="dp-call-link" href="#" class="dp-btn dp-call">📞 Call</a>
+      <a id="dp-wa-link"   href="#" class="dp-btn dp-wa" target="_blank">💬 WhatsApp</a>
       <button class="dp-btn dp-sched" id="dp-sched-btn">📅 Schedule</button>
     </div>
     <div class="sched-form" id="sched-form">
@@ -114,17 +224,21 @@
         <option value="both">Both</option>
       </select>
       <span class="sf-lbl">Date &amp; Time</span>
-      <input class="sf-inp" type="datetime-local" id="sf-dt">
+      <input class="sf-inp" type="datetime-local" id="sf-dt" />
       <div class="sf-acts">
-        <button class="sf-ok" id="sf-ok-btn">Confirm</button>
+        <button class="sf-ok"     id="sf-ok-btn">Confirm</button>
         <button class="sf-cancel" id="sf-cancel-btn">Cancel</button>
       </div>
     </div>
     <div class="dp-grid">
-      <div class="dp-cell"><div class="dp-cl">Product / Alert</div><div class="dp-cv" id="dp-product">--</div></div>
-      <div class="dp-cell"><div class="dp-cl">Language</div>       <div class="dp-cv" id="dp-lang">--</div></div>
-      <div class="dp-cell"><div class="dp-cl">Phone</div>          <div class="dp-cv" id="dp-ph2">--</div></div>
-      <div class="dp-cell"><div class="dp-cl">Registered</div>     <div class="dp-cv" id="dp-reg">--</div></div>
+      <div class="dp-cell"><div class="dp-cl">Industry</div>  <div class="dp-cv" id="dp-product">--</div></div>
+      <div class="dp-cell"><div class="dp-cl">Language</div>  <div class="dp-cv" id="dp-lang">--</div></div>
+      <div class="dp-cell"><div class="dp-cl">Phone</div>     <div class="dp-cv" id="dp-ph2">--</div></div>
+      <div class="dp-cell"><div class="dp-cl">Registered</div><div class="dp-cv" id="dp-reg">--</div></div>
+    </div>
+    <div class="followup-hist">
+      <div class="dp-nl">Followup History</div>
+      <div id="dp-followup-hist"></div>
     </div>
     <div class="dp-nl">Agent Note</div>
     <textarea class="dp-note" id="dp-note" placeholder="Add notes about this customer..."></textarea>
@@ -136,8 +250,8 @@
 <div class="qa-ov" id="qa-ov">
   <div class="qa-box">
     <h3 id="qa-title">Action</h3>
-    <input class="qa-inp" type="text" id="qa-phone" placeholder="Phone e.g. +918888888888">
-    <input class="qa-inp" type="text" id="qa-name" placeholder="Customer name">
+    <input class="qa-inp" type="text" id="qa-phone" placeholder="Phone e.g. +918888888888" />
+    <input class="qa-inp" type="text" id="qa-name"  placeholder="Customer name" />
     <div id="qa-extra"></div>
     <div class="qa-acts">
       <button class="btn btn-blue" style="flex:1" id="qa-confirm-btn">Confirm</button>
@@ -148,7 +262,6 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="js/app.js" defer></script>
-<script defer="" src="./index_files/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;3a85f3416ada460c9658e8d0ccbb3aa1&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
-
-</body></html>
+<script src="js/app.js"></script>
+</body>
+</html>
