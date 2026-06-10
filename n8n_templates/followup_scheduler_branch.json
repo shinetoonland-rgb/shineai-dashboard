@@ -32,7 +32,7 @@
   {
     "parameters": {
       "method": "POST",
-      "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/interactions",
+      "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/customer_interactions",
       "sendHeaders": true,
       "headerParameters": {
         "parameters": [

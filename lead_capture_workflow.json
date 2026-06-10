@@ -44,7 +44,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"name\": \"{{ $json.body.name }}\",\n  \"phone\": \"{{ $json.body.phone }}\",\n  \"email\": \"{{ $json.body.email }}\",\n  \"alert_type\": \"{{ $json.body.product }}\",\n  \"preferred_language\": \"{{ $json.body.language }}\"\n}"
+        "jsonBody": "={\n  \"name\": \"{{ $json.body.name }}\",\n  \"phone\": \"{{ $json.body.phone }}\",\n  \"alert_type\": \"{{ $json.body.product }}\",\n  \"preferred_language\": \"{{ $json.body.language }}\"\n}"
       },
       "id": "supabase-insert-customer-id",
       "name": "Insert_Customer_Supabase",
@@ -78,7 +78,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"customer_phone\": \"{{ $('Webhook_Lead_Capture').item.json.body.phone }}\",\n  \"followup_type\": \"voice\",\n  \"status\": \"pending\",\n  \"scheduled_time\": \"{{ $now.plus({seconds: 60}).toISOString() }}\"\n}"
+        "jsonBody": "={\n  \"customer_phone\": \"{{ $json.phone }}\",\n  \"followup_type\": \"voice\",\n  \"status\": \"pending\",\n  \"scheduled_time\": \"{{ $now.plus({seconds: 60}).toISO() }}\"\n}"
       },
       "id": "supabase-schedule-followup-id",
       "name": "Schedule_Followup_Supabase",
@@ -92,7 +92,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/interactions",
+        "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/customer_interactions",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -112,7 +112,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"customer_phone\": \"{{ $('Webhook_Lead_Capture').item.json.body.phone }}\",\n  \"customer_name\": \"{{ $('Webhook_Lead_Capture').item.json.body.name }}\",\n  \"interaction_type\": \"voice\",\n  \"message\": \"Lead registered via web form, Day 1 voice followup scheduled in 60s.\",\n  \"created_at\": \"{{ $now }}\"\n}"
+        "jsonBody": "={\n  \"customer_phone\": \"{{ $json.phone }}\",\n  \"customer_name\": \"{{ $json.name }}\",\n  \"interaction_type\": \"voice\",\n  \"message\": \"Lead registered via web form, Day 1 voice followup scheduled in 60s.\",\n  \"created_at\": \"{{ $now.toISO() }}\"\n}"
       },
       "id": "supabase-log-interaction-id",
       "name": "Log_Interaction_Supabase",
