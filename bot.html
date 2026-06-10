@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Sales Bot Demo | ShineAILabs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+      min-height: 100vh;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .glow-sphere {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+      top: 10%;
+      left: 10%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-sphere-2 {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+      bottom: 10%;
+      right: 10%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(30, 41, 59, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 1;
+    }
+    .logo {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 16px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .features-list {
+      text-align: left;
+      margin-bottom: 30px;
+      background: rgba(15, 23, 42, 0.4);
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+    }
+    .feature-item:last-child {
+      margin-bottom: 0;
+    }
+    .check-icon {
+      color: #10b981;
+      font-weight: bold;
+    }
+    .hint-box {
+      font-size: 13px;
+      color: #8b5cf6;
+      font-weight: 500;
+      background: rgba(139, 92, 246, 0.08);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 10px;
+      padding: 12px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-sphere"></div>
+  <div class="glow-sphere-2"></div>
+
+  <div class="container">
+    <div class="logo">🤖</div>
+    <h1>AI Sales Bot Widget Demo</h1>
+    <p>This is a standalone test harness page demonstrating the embeddable Claude-powered AI chatbot widget.</p>
+
+    <div class="features-list">
+      <div class="feature-item"><span class="check-icon">✓</span> Conversational qualification checking</div>
+      <div class="feature-item"><span class="check-icon">✓</span> Dynamic user feedback reply chips</div>
+      <div class="feature-item"><span class="check-icon">✓</span> Inline lead form parsing and storage</div>
+      <div class="feature-item"><span class="check-icon">✓</span> Connection to your active n8n scheduling webhook</div>
+      <div class="feature-item"><span class="check-icon">✓</span> Attention grabbing bubble notification dot after 4 seconds</div>
+    </div>
+
+    <div class="hint-box">
+      Look at the bottom-right corner of the page to chat! ⚡
+    </div>
+  </div>
+
+  <!-- Embed Bot Script -->
+  <script src="bot.js"></script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShineAILabs | AI Customer Followups & Engagement Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #0b0f19;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Gradients and Background Blobs */
+    .glow-blob {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+      top: -150px;
+      left: -100px;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .glow-blob-2 {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      top: 50%;
+      right: -200px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Navbar */
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-link {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-link:hover {
+      color: white;
+    }
+    .nav-btn {
+      padding: 10px 22px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px 100px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 50px;
+      color: #a78bfa;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -1.5px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #94a3b8;
+      max-width: 650px;
+      margin: 0 auto 40px auto;
+      line-height: 1.6;
+    }
+    .hero-btns {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      padding: 16px 36px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+      background-size: 200% auto;
+      border: none;
+      border-radius: 14px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      transition: 0.5s;
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+    }
+    .btn-primary:hover {
+      background-position: right center;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(139, 92, 246, 0.45);
+    }
+    .btn-secondary {
+      padding: 16px 36px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Stats Grid */
+    .stats {
+      max-width: 1000px;
+      margin: 0 auto 100px auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+    }
+    @media(max-width: 768px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+    .stat-card {
+      background: rgba(30, 41, 59, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .stat-num {
+      font-size: 40px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    /* Features Section */
+    .features-section {
+      max-width: 1200px;
+      margin: 0 auto 120px auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-header h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 16px;
+      color: #94a3b8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media(max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media(max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      background: rgba(30, 41, 59, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px;
+      transition: transform 0.3s, border-color 0.3s;
+      cursor: pointer;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(139, 92, 246, 0.3);
+      background: rgba(30, 41, 59, 0.45);
+    }
+    .feature-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      max-width: 1200px;
+      margin: 0 auto 100px auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 10;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(236, 72, 153, 0.1) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      padding: 60px 40px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .cta-box p {
+      font-size: 16px;
+      color: #cbd5e1;
+      max-width: 600px;
+      margin: 0 auto 32px auto;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      position: relative;
+      z-index: 10;
+    }
+    .footer span {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-blob"></div>
+  <div class="glow-blob-2"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-logo">⚡ ShineAILabs</div>
+    <div class="nav-links">
+      <a href="#" class="nav-link">Features</a>
+      <a href="#" class="nav-link">Pricing</a>
+      <a href="#" class="nav-link">Documentation</a>
+      <a href="https://shineai-dashboard.shinetoonland.workers.dev" class="nav-btn">Dashboard Login</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="badge">Next-Gen Lead Engagement</div>
+    <h1>Automate Customer Followups with <span>AI Voice & WhatsApp Agents</span></h1>
+    <p>Contact every new lead instantly in less than 60 seconds. Our advanced conversational AI makes voice calls, triggers templates, schedules tasks, and schedules followup workflows automatically.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary" id="demo-btn">Request Instant AI Call Demo</a>
+      <a href="https://shineai-dashboard.shinetoonland.workers.dev" class="btn-secondary">Platform Dashboard</a>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <section class="stats">
+    <div class="stat-card">
+      <div class="stat-num">&lt; 60s</div>
+      <div class="stat-label">AI Contact Response Time</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">40%+</div>
+      <div class="stat-label">Conversion Rate Boost</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Autonomous Operation</div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="features-section">
+    <div class="section-header">
+      <h2>Advanced Platform Features</h2>
+      <p>Powerful core integrations engineered to qualify, follow up, and log every interaction automatically.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📞</div>
+        <h3>AI Voice Calls</h3>
+        <p>Conversational phone agents that speak natural English and Hindi, handling EMI reminder notifications, payment calls, and interest checkups autonomously.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Meta WhatsApp API</h3>
+        <p>Triggers approved business followup templates automatically when leads check out or state scheduling preferences.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Analytics Dashboard</h3>
+        <p>A comprehensive real-time CRM with conversion funnels, activity trends, lead management grids, and per-customer followup logs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-banner">
+    <div class="cta-box">
+      <h2>Transform Your Sales Conversion Today</h2>
+      <p>Let our AI agents follow up with your customers while you focus on scaling. Talk to our Sales Bot in the bottom right corner for an instant live demonstration.</p>
+      <a href="#" class="btn-primary" id="cta-btn">Register New Account</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2026 <span>ShineAILabs</span>. Powered by n8n + Supabase + OpenAI + Twilio. All rights reserved.
+  </footer>
+
+  <!-- Embed Bot Script -->
+  <script src="bot.js"></script>
+  <script>
+    // Bind buttons to open the AI sales bot
+    const triggerBot = (e) => {
+      e.preventDefault();
+      // Find bubble and trigger chat
+      const chatWindow = document.getElementById('shineai-chat-window');
+      if (chatWindow && !chatWindow.classList.contains('active')) {
+        const bubble = document.getElementById('shineai-bubble');
+        if (bubble) bubble.click();
+      }
+    };
+    document.getElementById('demo-btn').addEventListener('click', triggerBot);
+    document.getElementById('cta-btn').addEventListener('click', triggerBot);
+  </script>
+</body>
+</html>
