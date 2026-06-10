@@ -1,0 +1,66 @@
+[
+  {
+    "parameters": {
+      "method": "POST",
+      "url": "https://graph.facebook.com/v19.0/PHONE_NUMBER_ID_HERE/messages",
+      "sendHeaders": true,
+      "headerParameters": {
+        "parameters": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ACCESS_TOKEN_HERE"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "sendBody": true,
+      "specifyBody": "json",
+      "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $('Get Customer Details').item.json.phone.replace(/\\D/g, '') }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"followup_reminder\",\n    \"language\": {\n      \"code\": \"en\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Get Customer Details').item.json.name }}\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    "id": "Send_WhatsApp_Followup_ID",
+    "name": "Send_WhatsApp_Followup",
+    "type": "n8n-nodes-base.httpRequest",
+    "typeVersion": 4.1,
+    "position": [
+      380,
+      240
+    ]
+  },
+  {
+    "parameters": {
+      "method": "POST",
+      "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/interactions",
+      "sendHeaders": true,
+      "headerParameters": {
+        "parameters": [
+          {
+            "name": "apikey",
+            "value": "YOUR_SUPABASE_KEY"
+          },
+          {
+            "name": "Authorization",
+            "value": "Bearer YOUR_SUPABASE_KEY"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "sendBody": true,
+      "specifyBody": "json",
+      "jsonBody": "{\n  \"customer_phone\": \"{{ $('Get Customer Details').item.json.phone }}\",\n  \"customer_name\": \"{{ $('Get Customer Details').item.json.name }}\",\n  \"interaction_type\": \"whatsapp\",\n  \"message\": \"Followup WhatsApp sent via Meta API\",\n  \"created_at\": \"{{ $now }}\"\n}"
+    },
+    "id": "Log_WhatsApp_Sent_ID",
+    "name": "Log_WhatsApp_Sent",
+    "type": "n8n-nodes-base.httpRequest",
+    "typeVersion": 4.1,
+    "position": [
+      600,
+      240
+    ]
+  }
+]

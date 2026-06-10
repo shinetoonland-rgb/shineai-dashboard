@@ -1,0 +1,131 @@
+[
+  {
+    "parameters": {
+      "conditions": {
+        "options": {
+          "caseSensitive": false,
+          "leftLike": ""
+        },
+        "conditions": [
+          {
+            "id": "c1",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "connect me to agent",
+            "operator": "contains"
+          },
+          {
+            "id": "c2",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "speak to someone",
+            "operator": "contains"
+          },
+          {
+            "id": "c3",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "sales manager",
+            "operator": "contains"
+          },
+          {
+            "id": "c4",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "support executive",
+            "operator": "contains"
+          },
+          {
+            "id": "c5",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "human",
+            "operator": "contains"
+          },
+          {
+            "id": "c6",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "real person",
+            "operator": "contains"
+          },
+          {
+            "id": "c7",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "agent chahiye",
+            "operator": "contains"
+          },
+          {
+            "id": "c8",
+            "leftValue": "={{ $('Save_User_Message').item.json.body.message }}",
+            "rightValue": "baat karni hai",
+            "operator": "contains"
+          }
+        ],
+        "combinator": "or"
+      }
+    },
+    "id": "IF_Escalation_Requested_ID",
+    "name": "IF_Escalation_Requested",
+    "type": "n8n-nodes-base.if",
+    "typeVersion": 2,
+    "position": [
+      380,
+      120
+    ]
+  },
+  {
+    "parameters": {
+      "method": "POST",
+      "url": "https://graph.facebook.com/v19.0/PHONE_NUMBER_ID_HERE/messages",
+      "sendHeaders": true,
+      "headerParameters": {
+        "parameters": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ACCESS_TOKEN_HERE"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "sendBody": true,
+      "specifyBody": "json",
+      "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"91YOUR_NUMBER_HERE\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"🚨 *ESCALATION ALERT!*\\n\\n👤 Customer: {{ $('Save_User_Message').item.json.body.customerName }}\\n📱 Phone: {{ $('Save_User_Message').item.json.body.from }}\\n💬 Message: {{ $('Save_User_Message').item.json.body.message }}\\n🕐 Time: {{ $now.toLocaleString() }}\\n\\n⚡ Please contact this customer immediately!\"\n  }\n}"
+    },
+    "id": "Send_Escalation_Alert_ID",
+    "name": "Send_Escalation_Alert",
+    "type": "n8n-nodes-base.httpRequest",
+    "typeVersion": 4.1,
+    "position": [
+      600,
+      20
+    ]
+  },
+  {
+    "parameters": {
+      "method": "POST",
+      "url": "https://graph.facebook.com/v19.0/PHONE_NUMBER_ID_HERE/messages",
+      "sendHeaders": true,
+      "headerParameters": {
+        "parameters": [
+          {
+            "name": "Authorization",
+            "value": "Bearer ACCESS_TOKEN_HERE"
+          },
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ]
+      },
+      "sendBody": true,
+      "specifyBody": "json",
+      "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $('Save_User_Message').item.json.body.from.replace(/\\D/g, '') }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Thank you for your patience! 🙏\\n\\nI have notified our team and a human agent will contact you within 15 minutes.\\n\\nFor urgent help call: +91XXXXXXXXXX\"\n  }\n}"
+    },
+    "id": "Send_Handoff_Message_ID",
+    "name": "Send_Handoff_Message",
+    "type": "n8n-nodes-base.httpRequest",
+    "typeVersion": 4.1,
+    "position": [
+      820,
+      20
+    ]
+  }
+]
