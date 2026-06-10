@@ -215,7 +215,7 @@ CREATE INDEX idx_kb_tenant ON knowledge_bases(tenant_id);
 -- ══════════════════════════════════════════════════════
 -- 11. CONVERSATIONS
 -- ══════════════════════════════════════════════════════
-CREATE TABLE conversations (
+CREATE TABLE conversations_v2 (
   id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tenant_id   UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   contact_id  UUID REFERENCES contacts(id),
@@ -227,7 +227,7 @@ CREATE TABLE conversations (
   updated_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_conv_tenant ON conversations(tenant_id);
+CREATE INDEX idx_conv_v2_tenant ON conversations_v2(tenant_id);
 
 -- ══════════════════════════════════════════════════════
 -- 12. MESSAGES
@@ -235,7 +235,7 @@ CREATE INDEX idx_conv_tenant ON conversations(tenant_id);
 CREATE TABLE messages (
   id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tenant_id       UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
-  conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
+  conversation_id UUID REFERENCES conversations_v2(id) ON DELETE CASCADE,
   role            TEXT CHECK (role IN ('user','assistant','system')),
   content         TEXT NOT NULL,
   channel         TEXT,
@@ -312,7 +312,7 @@ ALTER TABLE deals         ENABLE ROW LEVEL SECURITY;
 ALTER TABLE activities    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ai_agents     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE knowledge_bases ENABLE ROW LEVEL SECURITY;
-ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE conversations_v2 ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE followups_v2  ENABLE ROW LEVEL SECURITY;
 ALTER TABLE workflows     ENABLE ROW LEVEL SECURITY;
@@ -326,7 +326,7 @@ CREATE POLICY tenant_isolation_deals         ON deals         USING (tenant_id =
 CREATE POLICY tenant_isolation_activities    ON activities    USING (tenant_id = current_setting('app.tenant_id')::UUID);
 CREATE POLICY tenant_isolation_agents        ON ai_agents     USING (tenant_id = current_setting('app.tenant_id')::UUID);
 CREATE POLICY tenant_isolation_kb            ON knowledge_bases USING (tenant_id = current_setting('app.tenant_id')::UUID);
-CREATE POLICY tenant_isolation_conversations ON conversations USING (tenant_id = current_setting('app.tenant_id')::UUID);
+CREATE POLICY tenant_isolation_conversations ON conversations_v2 USING (tenant_id = current_setting('app.tenant_id')::UUID);
 CREATE POLICY tenant_isolation_messages      ON messages      USING (tenant_id = current_setting('app.tenant_id')::UUID);
 CREATE POLICY tenant_isolation_followups     ON followups_v2  USING (tenant_id = current_setting('app.tenant_id')::UUID);
 CREATE POLICY tenant_isolation_workflows     ON workflows     USING (tenant_id = current_setting('app.tenant_id')::UUID);
