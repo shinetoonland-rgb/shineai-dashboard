@@ -1,0 +1,202 @@
+{
+  "name": "Lead_Capture_and_AI_Followup_Scheduler",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-capture",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-lead-capture-id",
+      "name": "Webhook_Lead_Capture",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/customers",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "YOUR_SUPABASE_KEY"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_SUPABASE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"name\": \"{{ $json.body.name }}\",\n  \"phone\": \"{{ $json.body.phone }}\",\n  \"email\": \"{{ $json.body.email }}\",\n  \"alert_type\": \"{{ $json.body.product }}\",\n  \"preferred_language\": \"{{ $json.body.language }}\"\n}"
+      },
+      "id": "supabase-insert-customer-id",
+      "name": "Insert_Customer_Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        320,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/followups",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "YOUR_SUPABASE_KEY"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_SUPABASE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"customer_phone\": \"{{ $('Webhook_Lead_Capture').item.json.body.phone }}\",\n  \"followup_type\": \"voice\",\n  \"status\": \"pending\",\n  \"scheduled_time\": \"{{ $now.plus({seconds: 60}).toISOString() }}\"\n}"
+      },
+      "id": "supabase-schedule-followup-id",
+      "name": "Schedule_Followup_Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        540,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://cntbeeypqldxdjjucokl.supabase.co/rest/v1/interactions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "YOUR_SUPABASE_KEY"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_SUPABASE_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"customer_phone\": \"{{ $('Webhook_Lead_Capture').item.json.body.phone }}\",\n  \"customer_name\": \"{{ $('Webhook_Lead_Capture').item.json.body.name }}\",\n  \"interaction_type\": \"voice\",\n  \"message\": \"Lead registered via web form, Day 1 voice followup scheduled in 60s.\",\n  \"created_at\": \"{{ $now }}\"\n}"
+      },
+      "id": "supabase-log-interaction-id",
+      "name": "Log_Interaction_Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        540,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"success\",\n  \"message\": \"Lead captured successfully! AI voice callback scheduled.\"\n}",
+        "options": {}
+      },
+      "id": "webhook-response-id",
+      "name": "Webhook_Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook_Lead_Capture": {
+      "main": [
+        [
+          {
+            "node": "Insert_Customer_Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert_Customer_Supabase": {
+      "main": [
+        [
+          {
+            "node": "Schedule_Followup_Supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log_Interaction_Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule_Followup_Supabase": {
+      "main": [
+        [
+          {
+            "node": "Webhook_Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log_Interaction_Supabase": {
+      "main": [
+        [
+          {
+            "node": "Webhook_Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "lead-capture-workflow-v1",
+  "id": "lead-capture-workflow-id",
+  "meta": {
+    "templateId": "lead-capture-template"
+  }
+}
